@@ -3,65 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MoMo Data Dashboard</title>
+    <title>MoMo Message Analyzer</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>MTN MoMo Message Analyzer</h1>
-        <p>Paste your MoMo messages below and click "Analyze" to see a summary.</p>
+        <header>
+            <h1>MTN MoMo Message Analyzer</h1>
+            <p class="instructions">
+                Copy and paste your MTN MoMo messages below. The analyzer will:
+                <ul>
+                    <li>Track money received and sent</li>
+                    <li>Calculate airtime and bundle purchases</li>
+                    <li>Show your transaction history</li>
+                    <li>Display your current balance</li>
+                </ul>
+            </p>
+        </header>
 
-        <div class="input-section">
-            <textarea id="messageInput" rows="15" cols="50" placeholder="Paste your MTN MoMo messages here..."></textarea>
-            <button id="analyzeButton">Analyze Messages</button>
-        </div>
-
-        <div id="resultsArea">
-            <h2>Analysis Results</h2>
-            <div class="summary">
-                <div class="summary-item">
-                    <h3>Total Messages</h3>
-                    <p id="totalMessages">0</p>
-                </div>
-                <div class="summary-item">
-                    <h3>Money Received</h3>
-                    <p id="moneyReceived">0 RWF</p>
-                </div>
-                <div class="summary-item">
-                    <h3>Money Sent</h3>
-                    <p id="moneySent">0 RWF</p>
-                </div>
-                <div class="summary-item">
-                    <h3>Current Balance</h3>
-                    <p id="currentBalance">0 RWF</p>
+        <main>
+            <div class="input-section">
+                <textarea id="messageInput" rows="15" cols="50" placeholder="Paste your MTN MoMo messages here...
+Example format:
+[24/05, 12:00] Name: Message content
+[24/05, 12:01] Name: Another message"></textarea>
+                <div class="button-group">
+                    <button id="analyzeButton" class="primary-button">Analyze Messages</button>
+                    <button id="clearButton" class="secondary-button">Clear All</button>
                 </div>
             </div>
 
-            <div class="transactions">
-                <h3>Transaction History</h3>
-                <div class="filters">
-                    <button class="filter-btn active" data-filter="all">All</button>
-                    <button class="filter-btn" data-filter="received">Received</button>
-                    <button class="filter-btn" data-filter="sent">Sent</button>
-                    <button class="filter-btn" data-filter="airtime">Airtime</button>
-                    <button class="filter-btn" data-filter="bundles">Bundles</button>
+            <div id="resultsArea" class="hidden">
+                <h2>Analysis Results</h2>
+                
+                <div class="summary-cards">
+                    <div class="summary-card">
+                        <h3>Total Messages</h3>
+                        <p id="totalMessages">0</p>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Money Received</h3>
+                        <p id="moneyReceived">0 RWF</p>
+                        <span class="transaction-count" id="receivedCount">(0 transactions)</span>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Money Sent</h3>
+                        <p id="moneySent">0 RWF</p>
+                        <span class="transaction-count" id="sentCount">(0 transactions)</span>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Latest Balance</h3>
+                        <p id="currentBalance">0 RWF</p>
+                        <span class="last-updated" id="balanceTimestamp">Not available</span>
+                    </div>
                 </div>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Type</th>
-                                <th>Amount</th>
-                                <th>Details</th>
-                                <th>Balance</th>
-                            </tr>
-                        </thead>
-                        <tbody id="transactionsBody"></tbody>
-                    </table>
+
+                <div class="transactions-section">
+                    <h3>Transaction History</h3>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="received">Money Received</button>
+                        <button class="filter-btn" data-filter="sent">Money Sent</button>
+                        <button class="filter-btn" data-filter="airtime">Airtime</button>
+                        <button class="filter-btn" data-filter="bundles">Data Bundles</button>
+                        <button class="filter-btn" data-filter="other">Other</button>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date & Time</th>
+                                    <th>Type</th>
+                                    <th>Amount</th>
+                                    <th>Details</th>
+                                    <th>Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transactionsBody"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
+        </main>
+
+        <footer>
+            <p>💡 Tip: For best results, copy all messages from your conversation and paste them at once.</p>
+        </footer>
     </div>
     <script src="script.js"></script>
 </body>
